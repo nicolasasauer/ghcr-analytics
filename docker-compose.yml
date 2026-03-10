@@ -1,0 +1,32 @@
+services:
+  ghcr-pulse:
+    build: .
+    container_name: ghcr-pulse
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - stats_db:/data
+    environment:
+      # GitHub Personal Access Token with 'read:packages' scope.
+      # Required to query private packages and to raise the API rate limit.
+      GITHUB_TOKEN: "${GITHUB_TOKEN:-}"
+
+      # How often (in hours) pull stats are refreshed in the background.
+      UPDATE_INTERVAL_HOURS: "${UPDATE_INTERVAL_HOURS:-6}"
+
+      # Optional HTTP Basic Auth – leave empty to disable.
+      AUTH_USER: "${AUTH_USER:-}"
+      AUTH_PASSWORD: "${AUTH_PASSWORD:-}"
+
+      DB_PATH: /data/stats.db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  stats_db:
+    name: stats_db
