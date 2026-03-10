@@ -1,6 +1,6 @@
 services:
   ghcr-pulse:
-    build: .
+    image: ghcr.io/nicolasasauer/ghcr-pulse:latest
     container_name: ghcr-pulse
     restart: unless-stopped
     ports:
