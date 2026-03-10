@@ -1,6 +1,6 @@
 """Database models and initialisation for GHCR-Pulse."""
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -9,6 +9,11 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 # Allow override for local development / tests
 DB_PATH = os.getenv("DB_PATH", "/data/stats.db")
 DATABASE_URL = f"sqlite+aiosqlite:///{DB_PATH}"
+
+def _utcnow() -> datetime:
+    """Return the current UTC time as a timezone-naive datetime (for SQLite compatibility)."""
+    return datetime.now(tz=timezone.utc).replace(tzinfo=None)
+
 
 engine = create_async_engine(DATABASE_URL, echo=False, future=True)
 AsyncSessionLocal: sessionmaker[AsyncSession] = sessionmaker(  # type: ignore[type-arg]
@@ -30,7 +35,7 @@ class Repo(Base):
     name = Column(String(255), nullable=False)
     # Canonical "owner/name" identifier – must be unique
     full_name = Column(String(511), unique=True, nullable=False, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=_utcnow, nullable=False)
 
 
 class PullStat(Base):
@@ -43,7 +48,7 @@ class PullStat(Base):
         Integer, ForeignKey("repos.id", ondelete="CASCADE"), nullable=False, index=True
     )
     pull_count = Column(BigInteger, nullable=False)
-    recorded_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    recorded_at = Column(DateTime, default=_utcnow, nullable=False, index=True)
 
 
 async def init_db() -> None:

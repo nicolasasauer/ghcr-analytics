@@ -33,7 +33,13 @@ UPDATE_INTERVAL_HOURS: float = float(os.getenv("UPDATE_INTERVAL_HOURS", "6"))
 AUTH_USER: str = os.getenv("AUTH_USER", "")
 AUTH_PASSWORD: str = os.getenv("AUTH_PASSWORD", "")
 
-# ─── APScheduler ─────────────────────────────────────────────────────────────
+# ─── Utility helpers ─────────────────────────────────────────────────────────
+def _utcnow_naive() -> datetime:
+    """Return the current UTC time as a timezone-naive datetime (SQLite-compatible)."""
+    return datetime.now(tz=timezone.utc).replace(tzinfo=None)
+
+
+
 scheduler = AsyncIOScheduler(timezone="UTC")
 
 
@@ -185,7 +191,7 @@ async def update_all_repos() -> None:
 # ─── Dashboard data helpers ──────────────────────────────────────────────────
 async def _build_dashboard_data() -> dict[str, Any]:
     """Assemble all data required to render the dashboard."""
-    cutoff_24h = datetime.now(tz=timezone.utc).replace(tzinfo=None) - timedelta(hours=24)
+    cutoff_24h = _utcnow_naive() - timedelta(hours=24)
 
     async with AsyncSessionLocal() as session:
         repos_result = await session.execute(select(Repo).order_by(Repo.created_at))
