@@ -2,7 +2,10 @@
 
 A self-hosted analytics dashboard for tracking **GitHub Container Registry (GHCR)** pull statistics over time.
 
-![Dashboard Screenshot](docs/screenshot-dashboard.png)
+> **⚡ Vibe-Coded**
+> This project was built with the help of AI-assisted development. The code works, but may not follow all conventional best practices. Use at your own risk – contributions and improvements are always welcome!
+
+![Dashboard Screenshot](https://github.com/user-attachments/assets/0296ad00-5726-4ed2-bf54-5d0c9e0df57e)
 
 ---
 
@@ -81,12 +84,16 @@ All settings are passed via environment variables (or a `.env` file next to `doc
 
 ### Dashboard
 
-![Dashboard](docs/screenshot-dashboard.png)
+![Dashboard – KPI cards & charts](https://github.com/user-attachments/assets/0296ad00-5726-4ed2-bf54-5d0c9e0df57e)
 
 The main dashboard shows:
 - **KPI cards** at the top (tracked repositories, total pulls, 24-hour growth)
-- **Pull-count timeline charts** for each tracked image
+- **Pull-count timeline charts** for each tracked image (interactive: zoom & pan)
 - **Add package** form and **remove** button per repository
+
+### Manage Packages & Charts
+
+![Charts grid & package management](https://github.com/user-attachments/assets/5ae59a07-d804-4145-8c5a-f38f915dc9c6)
 
 ### Adding a Package
 
