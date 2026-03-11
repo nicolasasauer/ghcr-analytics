@@ -35,9 +35,9 @@ docker compose up -d
 
 ```yaml
 services:
-  ghcr-pulse:
-    image: ghcr.io/nicolasasauer/ghcr-pulse:latest
-    container_name: ghcr-pulse
+  ghcr-analytics:
+    image: ghcr.io/nicolasasauer/ghcr-analytics:latest
+    container_name: ghcr-analytics
     restart: unless-stopped
     ports:
       - "${PORT:-8000}:8000"
@@ -97,7 +97,7 @@ The main dashboard shows:
 
 ### Adding a Package
 
-Enter the package in `owner/package-name` format (e.g. `nicolasasauer/ghcr-pulse`) and click **Add**.
+Enter the package in `owner/package-name` format (e.g. `nicolasasauer/ghcr-analytics`) and click **Add**.
 
 ---
 
@@ -106,11 +106,11 @@ Enter the package in `owner/package-name` format (e.g. `nicolasasauer/ghcr-pulse
 A GitHub Actions workflow (`.github/workflows/docker-publish.yml`) automatically builds and pushes the image to GHCR on every push to `main`:
 
 ```
-ghcr.io/nicolasasauer/ghcr-pulse:latest
+ghcr.io/nicolasasauer/ghcr-analytics:latest
 ```
 
 The package visibility is set to **public** in the GitHub repository settings
-(*Packages → ghcr-pulse → Package settings → Change visibility → Public*),
+(*Packages → ghcr-analytics → Package settings → Change visibility → Public*),
 so anyone can pull the image without authentication.
 
 ### Making the GHCR Package Public
@@ -118,7 +118,7 @@ so anyone can pull the image without authentication.
 After the first successful workflow run:
 
 1. Go to **https://github.com/nicolasasauer?tab=packages**
-2. Click on **ghcr-pulse**
+2. Click on **ghcr-analytics**
 3. Click **Package settings** (bottom-right)
 4. Under *Danger Zone* → **Change visibility** → select **Public**
 
@@ -129,8 +129,8 @@ After the first successful workflow run:
 ```bash
 git clone https://github.com/nicolasasauer/ghcr-analytics.git
 cd ghcr-analytics
-docker build -t ghcr-pulse .
-docker run -p 8000:8000 ghcr-pulse
+docker build -t ghcr-analytics .
+docker run -p 8000:8000 ghcr-analytics
 ```
 
 ---

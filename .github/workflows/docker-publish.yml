@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: nicolasasauer/ghcr-pulse
+  IMAGE_NAME: nicolasasauer/ghcr-analytics
 
 jobs:
   build-and-push:
