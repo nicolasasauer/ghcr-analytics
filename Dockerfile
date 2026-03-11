@@ -34,12 +34,9 @@ RUN mkdir -p /data && chown ghcr:ghcr /data
 
 USER ghcr
 
-# Environment defaults (all can be overridden at runtime)
+# Environment defaults (non-sensitive; override at runtime)
 ENV DB_PATH=/data/stats.db \
-    UPDATE_INTERVAL_HOURS=6 \
-    GITHUB_TOKEN="" \
-    AUTH_USER="" \
-    AUTH_PASSWORD=""
+    UPDATE_INTERVAL_HOURS=6
 
 EXPOSE 8000
 
