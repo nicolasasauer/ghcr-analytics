@@ -1,7 +1,7 @@
 services:
-  ghcr-pulse:
-    image: ghcr.io/nicolasasauer/ghcr-pulse:latest
-    container_name: ghcr-pulse
+  ghcr-analytics:
+    image: ghcr.io/nicolasasauer/ghcr-analytics:latest
+    container_name: ghcr-analytics
     restart: unless-stopped
     ports:
       - "${PORT:-8000}:8000"
